@@ -1,0 +1,12 @@
+requests>=2.28
+beautifulsoup4>=4.11
+pandas>=1.5
+matplotlib>=3.6
+seaborn>=0.12
+scikit-learn>=1.1
+textblob>=0.17
+wordcloud>=1.9
+streamlit>=1.32
+psycopg2-binary>=2.9
+python-dotenv>=0.19
+scipy 

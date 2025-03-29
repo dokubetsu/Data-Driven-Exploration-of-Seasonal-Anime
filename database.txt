@@ -1,0 +1,53 @@
+-- SQL commands to create the database schema
+
+-- Main history table
+CREATE TABLE anime_seasonal_data_history (
+    scrape_id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    synopsis TEXT,
+    studio VARCHAR(255),
+    source VARCHAR(100),
+    demographic VARCHAR(50),
+    score NUMERIC(4, 2),
+    members INTEGER,
+    start_date DATE,
+    scrape_timestamp TIMESTAMP WITH TIME ZONE NOT NULL,
+    season VARCHAR(20),
+    year INTEGER,
+    episodes INTEGER,
+    status VARCHAR(100),
+    duration VARCHAR(100),
+    rating VARCHAR(100),
+    popularity_rank INTEGER,
+    score_rank INTEGER
+);
+
+-- Add unique constraint after table creation
+ALTER TABLE anime_seasonal_data_history
+ADD CONSTRAINT unique_anime_scrape UNIQUE (title, scrape_timestamp);
+
+-- Genres table
+CREATE TABLE genres (
+    genre_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) UNIQUE NOT NULL
+);
+
+-- Themes table
+CREATE TABLE themes (
+    theme_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) UNIQUE NOT NULL
+);
+
+-- Linking table for anime and genres (many-to-many)
+CREATE TABLE anime_genres (
+    anime_history_scrape_id INTEGER REFERENCES anime_seasonal_data_history(scrape_id) ON DELETE CASCADE,
+    genre_id INTEGER REFERENCES genres(genre_id) ON DELETE CASCADE,
+    PRIMARY KEY (anime_history_scrape_id, genre_id)
+);
+
+-- Linking table for anime and themes (many-to-many)
+CREATE TABLE anime_themes (
+    anime_history_scrape_id INTEGER REFERENCES anime_seasonal_data_history(scrape_id) ON DELETE CASCADE,
+    theme_id INTEGER REFERENCES themes(theme_id) ON DELETE CASCADE,
+    PRIMARY KEY (anime_history_scrape_id, theme_id)
+); 
